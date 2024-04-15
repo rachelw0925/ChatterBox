@@ -1,9 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.awt.event.*;
 import javax.swing.border.EmptyBorder;
+import java.io.*;
 
 public class GWackClientGUI extends JFrame {
 	private JLabel name;
@@ -49,17 +48,25 @@ public class GWackClientGUI extends JFrame {
 		composeArea.setPreferredSize(new Dimension(100, 100));
 		send = new JButton("Send");
 	}
-    
-	public JTextField getNameField() {
-        return nameField;
-    }
 
-    public JTextArea getMessagesArea() {
+    public JTextArea getDisplayTextArea() {
         return messagesArea;
     }
     
-    public JTextArea getMembersArea() {
+    public JTextArea getMembersTextArea() {
     	return membersArea;
+    }
+    
+    public JTextField getPort() {
+    	return portField;
+    }
+    
+    public void setMembersAreaText(String text) {
+    	membersArea.setText(text);
+    }
+    
+    public void newMessage(String text) {
+        messagesArea.append(text + "\n");
     }
 	
 	private void makeLayout() {
@@ -133,25 +140,33 @@ public class GWackClientGUI extends JFrame {
 		                JOptionPane.showMessageDialog(GWackClientGUI.this, "Invalid port number. Please enter a valid port between 0 and 65535.", "Connection Error", JOptionPane.ERROR_MESSAGE);
 		                return;
 		            }
+	                client = new ClientNetworking(nameField.getText(), ipField.getText(), portNumber, GWackClientGUI.this);
+	                client.sendNameToServer(); // Send the name to the server
 		            connect.setText("Disconnect");
 		    		nameField.setEditable(false);
 		    		ipField.setEditable(false);
 		    		portField.setEditable(false);
-		            // Connect to server
+		    	    send.addActionListener(new ActionListener() {
+		    		    public void actionPerformed(ActionEvent e1) {
+		    		    	String message = composeArea.getText();
+		    		    	client.writeMsg(message);
+		    		    }    
+		    		});
+		            
 		        } 
 		        else {
+		        	client.disconnect();
 		        	connect.setText("Connect");
 		    		nameField.setEditable(true);
 		    		ipField.setEditable(true);
 		    		portField.setEditable(true);
+		    		membersArea.setText("");
+                    messagesArea.setText("");
+                    composeArea.setText("");
 		        }
 		    }
 		});
-	    send.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e1) {
-		    	//Send messaage to server;
-		    }    
-		});
+
 	}
 	
 
