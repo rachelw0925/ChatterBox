@@ -305,7 +305,7 @@ public class Project2_Tester {
     System.out.println("checking server can chat with a single client");
 
     Process process = null;
-    String command = "java GWackChannel 8083";
+    String command = "java GWackChannel 2030";
     try {
         process = Runtime.getRuntime().exec(command);
 
