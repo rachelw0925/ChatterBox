@@ -61,6 +61,10 @@ public class GWackClientGUI extends JFrame {
     	return portField;
     }
     
+    public boolean isMessagesAreaEmpty() {
+        return messagesArea.getText().isEmpty();
+    }
+    
     public void setMembersAreaText(String text) {
     	membersArea.setText(text);
     }
@@ -73,7 +77,7 @@ public class GWackClientGUI extends JFrame {
     }
     
     public void newMessage(String text) {
-        messagesArea.append(text + "\n");
+    	messagesArea.append(text + "\n");
     }
 	
 	private void makeLayout() {

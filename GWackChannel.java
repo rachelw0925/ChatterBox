@@ -23,7 +23,7 @@ public class GWackChannel {
 		return serverSocket;
 	}
 	
-	public synchronized ArrayList<ClientThread> getConnectedClients() {
+	public ArrayList<ClientThread> getConnectedClients() {
 		return connectedClients;
 	}
     
@@ -31,20 +31,20 @@ public class GWackChannel {
         return outputQueue;
     }
     
-    public void enqueue(String inputLine, String name) {
+    public synchronized void enqueue(String inputLine, String name) {
         String formattedMessage = "[" + name + "] " + inputLine;
         outputQueue.add(formattedMessage);
         broadcast();
     }
     
-    public void enqueueClientNames() {
+    public synchronized void enqueueClientNames() {
     	String clientList = getClientList();
         for (ClientThread client : connectedClients) {
             client.sendMessage(clientList);
         }
     }
     
-    public void broadcast() {
+    public synchronized void broadcast() {
     	while (!outputQueue.isEmpty()){
             String message = outputQueue.poll();
     		for (ClientThread client : connectedClients) {
@@ -53,7 +53,7 @@ public class GWackChannel {
     	}
     }
    
-    public synchronized void serve(int number) {
+    public void serve(int number) {
         if (number == -1) {
             while (true) {
                 try {
@@ -95,7 +95,7 @@ public class GWackChannel {
 	    return clientList;
 	}
 	
-    public synchronized void removeClients() {
+    public void removeClients() {
     	Iterator<ClientThread> iterator = connectedClients.iterator();
         while (iterator.hasNext()) {
             ClientThread client = iterator.next();

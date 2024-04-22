@@ -75,7 +75,7 @@ public class ClientThread extends Thread {
 			valid = false;
 			System.out.println("hi1");
 			server.removeClients();
-	        e.printStackTrace();	        
+	        e.printStackTrace();
 		}
 
 	}

@@ -62,7 +62,6 @@ public class ClientNetworking {
         	writeMsg("LOGOUT");
             out.flush();
             socket.close();
-
             isConnected = false;
         } 
         catch (IOException e) {
