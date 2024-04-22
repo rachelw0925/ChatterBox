@@ -316,7 +316,7 @@ public class Project2_Tester {
         cN1.writeMsg("red");
         cN1.writeMsg("yellow");
         cN1.writeMsg("green");
-        Thread.sleep(5);
+        Thread.sleep(500);
             
         String[] pieces = gui1.getDisplayTextArea().getText().split("\n");
         assertEquals("[Jane] green", pieces[pieces.length - 1]);
@@ -343,24 +343,24 @@ public class Project2_Tester {
         ClientNetworking cN1 = new ClientNetworking("Jane", "localhost", 2030, gui1);
         cN1.getOut().println("SECRET\n3c3c4ac618656ae32b7f3431e75f7b26b1a14a87\nNAME\n" + cN1.getName());
         cN1.getOut().flush();
-        Thread.sleep(5);
+        Thread.sleep(500);
 
         GWackClientGUI  gui2 = new GWackClientGUI();
         ClientNetworking cN2 = new ClientNetworking("John", "localhost", 2030, gui2);
         cN2.getOut().println("SECRET\n3c3c4ac618656ae32b7f3431e75f7b26b1a14a87\nNAME\n" + cN2.getName());
         cN2.getOut().flush();
-        Thread.sleep(5);
+        Thread.sleep(500);
 
         cN1.writeMsg("red");
-        Thread.sleep(5);
+        Thread.sleep(500);
         cN2.writeMsg("yellow");
-        Thread.sleep(5);
+        Thread.sleep(500);
         cN1.writeMsg("green");
-        Thread.sleep(5);
+        Thread.sleep(500);
         cN1.writeMsg("pink");
-        Thread.sleep(5);
+        Thread.sleep(500);
         cN2.writeMsg("blue");
-        Thread.sleep(5);
+        Thread.sleep(500);
 
         String[] pieces = gui1.getDisplayTextArea().getText().split("\n");
         assertEquals("[John] blue", pieces[pieces.length - 1]);
