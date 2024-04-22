@@ -1,4 +1,5 @@
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.border.EmptyBorder;
@@ -12,7 +13,6 @@ public class GWackClientGUI extends JFrame {
 	private JLabel port;
 	private JTextField portField;
 	private JButton connect;
-	private JButton disconnect;
 	private JLabel members;
 	private JTextArea membersArea;
 	private JLabel messages;
@@ -65,6 +65,13 @@ public class GWackClientGUI extends JFrame {
     	membersArea.setText(text);
     }
     
+    public void handleButton() {
+        connect.setText("Disconnect");
+		nameField.setEditable(false);
+		ipField.setEditable(false);
+		portField.setEditable(false);
+    }
+    
     public void newMessage(String text) {
         messagesArea.append(text + "\n");
     }
@@ -80,7 +87,7 @@ public class GWackClientGUI extends JFrame {
 		JPanel membersPanel = new JPanel();
 	    membersPanel.setLayout(new BorderLayout());
 	    membersPanel.add(members, BorderLayout.NORTH);
-	    membersPanel.add(membersArea, BorderLayout.CENTER);
+	    membersPanel.add(new JScrollPane(membersArea), BorderLayout.CENTER);
 	    
 	    JPanel composePanel = new JPanel();
 	    EmptyBorder border = new EmptyBorder(10, 10, 10, 10);
@@ -92,7 +99,7 @@ public class GWackClientGUI extends JFrame {
 	    JPanel messagesPanel = new JPanel();
 	    messagesPanel.setLayout(new BorderLayout());
 	    messagesPanel.add(messages, BorderLayout.NORTH);
-	    messagesPanel.add(messagesArea, BorderLayout.CENTER);
+	    messagesPanel.add(new JScrollPane(messagesArea), BorderLayout.CENTER);
 	    
 	    JPanel center1Panel = new JPanel ();
 	    center1Panel.setLayout(new BorderLayout());
@@ -141,15 +148,11 @@ public class GWackClientGUI extends JFrame {
 		                return;
 		            }
 	                client = new ClientNetworking(nameField.getText(), ipField.getText(), portNumber, GWackClientGUI.this);
-	                client.sendNameToServer(); // Send the name to the server
-		            connect.setText("Disconnect");
-		    		nameField.setEditable(false);
-		    		ipField.setEditable(false);
-		    		portField.setEditable(false);
 		    	    send.addActionListener(new ActionListener() {
 		    		    public void actionPerformed(ActionEvent e1) {
 		    		    	String message = composeArea.getText();
 		    		    	client.writeMsg(message);
+		                    composeArea.setText("");
 		    		    }    
 		    		});
 		            

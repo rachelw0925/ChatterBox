@@ -1,4 +1,5 @@
 import java.util.*;
+import javax.swing.*;
 import java.net.*;
 import java.io.*;
 
@@ -12,10 +13,9 @@ public class ClientNetworking {
     private BufferedReader in;
     private MessageReceiver messageReceiver;
     private GWackClientGUI gui;
-    private boolean isConnected = false;
+    private volatile boolean isConnected = false;
 
     public ClientNetworking(String name, String ip, int port, GWackClientGUI gui) {
-        this.name = name;
     	try {
             socket = new Socket(ip, port);
             out = new PrintWriter(socket.getOutputStream());
@@ -25,12 +25,15 @@ public class ClientNetworking {
             writeMsg("3c3c4ac618656ae32b7f3431e75f7b26b1a14a87");
             writeMsg("NAME");
             writeMsg(name);
-            sendNameToServer();
             out.flush();
+            if (gui != null) {
+            	gui.handleButton();
+            }
             messageReceiver = new MessageReceiver(in, gui);
             messageReceiver.start();
         } 
         catch (IOException e) {
+            JOptionPane.showMessageDialog(gui, "Cannot connect", "Connection Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
@@ -56,21 +59,14 @@ public class ClientNetworking {
 
     public void disconnect() {
         try {
-            socket.close();
+        	writeMsg("LOGOUT");
             out.flush();
-            in.close();
-            out.close();
+            socket.close();
+
             isConnected = false;
         } 
         catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    public void sendNameToServer() {
-        if (isConnected) {
-            out.println("NAME " + name);
-            out.flush();
         }
     }
     
