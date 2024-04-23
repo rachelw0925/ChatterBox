@@ -1,5 +1,4 @@
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.border.EmptyBorder;
@@ -59,10 +58,6 @@ public class GWackClientGUI extends JFrame {
     
     public JTextField getPort() {
     	return portField;
-    }
-    
-    public boolean isMessagesAreaEmpty() {
-        return messagesArea.getText().isEmpty();
     }
     
     public void setMembersAreaText(String text) {
