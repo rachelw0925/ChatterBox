@@ -46,7 +46,7 @@ public class GWackChannel {
     
     public synchronized void broadcast() {
     	while (!outputQueue.isEmpty()){
-            String message = outputQueue.poll();
+            String message = outputQueue.remove();
     		for (ClientThread client : connectedClients) {
                 client.sendMessage(message);
             }
